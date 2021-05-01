@@ -4,7 +4,9 @@ import {
   GetStaticPaths,
 } from 'next';
 
-import { Article } from '@components/Article';
+import Head from 'next/head';
+
+import { Article, BlogPostImage } from '@components/Article';
 import type { Post } from '../index';
 import { useRouter } from 'next/router';
 
@@ -13,10 +15,16 @@ export default function BlogPost({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
 
+  const { title, body } = post;
   return (
     <Article>
-      <h1> Post title: {post.title}</h1>
-      <p>{post.body}</p>
+      <Head>
+        <title>{title}</title>
+        <meta property='og:title' content={title} />
+      </Head>
+      <h1> Post title: {title}</h1>
+      <BlogPostImage src='/pepe.jpg' alt='pepe' />
+      <p>{body}</p>
     </Article>
   );
 }

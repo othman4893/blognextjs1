@@ -1,5 +1,8 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { InferGetStaticPropsType } from 'next';
+
+import { FeedbackForm } from '../components/FeedbackForm';
 
 import styles from '../styles/Home.module.css';
 
@@ -54,8 +57,6 @@ const PostTitle = styled.h2`
 export default function Home({
   posts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(posts);
-
   return (
     <Container className={styles.container}>
       <Head>
@@ -65,14 +66,18 @@ export default function Home({
       </Head>
 
       <Main className={styles.main}>
-        <BlogTitle className={styles.title}>{title}</BlogTitle>
+        <BlogTitle className={styles.title}>Good day {title}</BlogTitle>
+        <Link href='/about'>About this Blog</Link>
         <List>
           {posts.map((post) => (
-            <ListItem key={post.id}>
-              <PostTitle>{post.title}</PostTitle>
-            </ListItem>
+            <Link href='/posts/[id]' as={`/posts/${post.id}`}>
+              <ListItem key={post.id}>
+                <PostTitle>{post.title}</PostTitle>
+              </ListItem>
+            </Link>
           ))}
         </List>
+        <FeedbackForm />
       </Main>
     </Container>
   );
